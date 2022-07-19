@@ -1,5 +1,5 @@
 {
-    "name": "klaude/eloquent-preferences",
+    "name": "gajosu/eloquent-preferences",
     "type": "library",
     "description": "Preferences for Laravel Eloquent models",
     "keywords": [
@@ -7,7 +7,7 @@
         "eloquent",
         "preferences"
     ],
-    "homepage": "https://github.com/klaude/eloquent-preferences",
+    "homepage": "https://github.com/gajosu/eloquent-preferences",
     "license": "MIT",
     "authors": [
         {
