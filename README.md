@@ -41,7 +41,7 @@ return [
 
         // ...
 
-        KLaude\EloquentPreferences\EloquentPreferencesServiceProvider::class,
+        Gajosu\EloquentPreferences\EloquentPreferencesServiceProvider::class,
     ],
 
     // ...
@@ -72,7 +72,7 @@ $ php artisan migrate
 ```php
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
-use KLaude\EloquentPreferences\Preference;
+use Gajosu\EloquentPreferences\Preference;
 
 // ...
 
@@ -95,7 +95,7 @@ Model::getConnectionResolver()
 Add the `HasPreferences` trait to the Eloquent models that you would like to have related preferences.
 
 ```php
-use KLaude\EloquentPreferences\HasPreferences;
+use Gajosu\EloquentPreferences\HasPreferences;
 
 // ...
 
@@ -107,11 +107,11 @@ class MyModel extends Model
 }
 ```
 
-This builds a polymorphic has-many relationship called "preferences" that you can query on your model like any other Eloquent relationship. Model preferences are modeled in the `KLaude\EloquentPreferences\Preference` class. A preference object has `preference`, `value`, and Eloquent's built-in `created_at` and `updated_at` attributes. The `HasPreferences` trait can be used by any number of model classes in your application.
+This builds a polymorphic has-many relationship called "preferences" that you can query on your model like any other Eloquent relationship. Model preferences are modeled in the `Gajosu\EloquentPreferences\Preference` class. A preference object has `preference`, `value`, and Eloquent's built-in `created_at` and `updated_at` attributes. The `HasPreferences` trait can be used by any number of model classes in your application.
 
 ```php
 // Retrieving preferences via Eloquent
-/** @var KLaude\EloquentPreferences\Preference $myPreference */
+/** @var Gajosu\EloquentPreferences\Preference $myPreference */
 $myPreference = MyModel::find($someId)->preferences()->where('preference', 'my-preference')->get();
 
 // Saving preferences via Eloquent
@@ -124,7 +124,7 @@ $myModel->preferences()->save($preference);
 Eloquent queries can be run directly on the `Preference` class as well.
 
 ```php
-/** @var Illuminate\Database\Eloquent\Collection|KLaude\EloquentPreferences\Preference[] $preferences */
+/** @var Illuminate\Database\Eloquent\Collection|Gajosu\EloquentPreferences\Preference[] $preferences */
 $preferences = Preference::whereIn('preference', ['foo', 'bar'])->orderBy('created_at')->get();
 ```
 
