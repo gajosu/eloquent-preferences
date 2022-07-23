@@ -1,12 +1,12 @@
 # Preferences for Laravel Eloquent models
 
-[![Build Status](https://travis-ci.org/klaude/eloquent-preferences.png)](https://travis-ci.org/klaude/eloquent-preferences)
-[![Latest Stable Version](https://poser.pugx.org/klaude/eloquent-preferences/v/stable)](https://packagist.org/packages/klaude/eloquent-preferences)
-[![Total Downloads](https://poser.pugx.org/klaude/eloquent-preferences/downloads)](https://packagist.org/packages/klaude/eloquent-preferences)
-[![Latest Unstable Version](https://poser.pugx.org/klaude/eloquent-preferences/v/unstable)](https://packagist.org/packages/klaude/eloquent-preferences)
-[![License](https://poser.pugx.org/klaude/eloquent-preferences/license)](https://packagist.org/packages/klaude/eloquent-preferences)
+[![Build Status](https://travis-ci.org/gajosu/eloquent-preferences.png)](https://travis-ci.org/gajosu/eloquent-preferences)
+[![Latest Stable Version](https://poser.pugx.org/gajosu/eloquent-preferences/v/stable)](https://packagist.org/packages/gajosu/eloquent-preferences)
+[![Total Downloads](https://poser.pugx.org/gajosu/eloquent-preferences/downloads)](https://packagist.org/packages/gajosu/eloquent-preferences)
+[![Latest Unstable Version](https://poser.pugx.org/gajosu/eloquent-preferences/v/unstable)](https://packagist.org/packages/gajosu/eloquent-preferences)
+[![License](https://poser.pugx.org/gajosu/eloquent-preferences/license)](https://packagist.org/packages/gajosu/eloquent-preferences)
 
-Use this library to bind multiple key/value pair preferences to your application's Eloquent models. Preferences are stored in your application's database so they can be easily stored and queried for. This library supports Eloquent 5 through 8 installed either standalone or as a part of the full Laravel framework. Issues and pull requests are welcome! See [CONTRIBUTING.md](https://github.com/klaude/eloquent-preferences/blob/master/CONTRIBUTING.md) for more information.
+Use this library to bind multiple key/value pair preferences to your application's Eloquent models. Preferences are stored in your application's database so they can be easily stored and queried for. This library supports Eloquent 5 through 8 installed either standalone or as a part of the full Laravel framework. Issues and pull requests are welcome! See [CONTRIBUTING.md](https://github.com/gajosu/eloquent-preferences/blob/master/CONTRIBUTING.md) for more information.
 
 * [Installation](#installation)
   * [Configuring In Laravel](#configuring-in-laravel)
@@ -23,7 +23,7 @@ Use this library to bind multiple key/value pair preferences to your application
 <a name="installation"></a>
 ## Installation
 
-Run `composer require klaude/eloquent-preferences` to download and install the library.
+Run `composer require gajosu/eloquent-preferences` to download and install the library.
 
 <a name="configuring-in-laravel"></a>
 ### Configuring In Laravel
