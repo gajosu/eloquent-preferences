@@ -2,10 +2,10 @@
 
 namespace KLaude\EloquentPreferences\Tests;
 
+use PHPUnit\Framework\TestCase;
 use KLaude\EloquentPreferences\Preference;
-use PHPUnit_Framework_TestCase;
 
-class PreferenceTest extends PHPUnit_Framework_TestCase
+class PreferenceTest extends TestCase
 {
     public function testSetTheDefaultTableName()
     {

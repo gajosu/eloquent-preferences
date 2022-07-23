@@ -6,7 +6,7 @@
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
-         testSuiteLoaderClass="PHPUnit_Runner_StandardTestSuiteLoader"
+         testSuiteLoaderClass="PHPUnit\Runner\StandardTestSuiteLoader"
          beStrictAboutTestsThatDoNotTestAnything="true"
          beStrictAboutCoversAnnotation="true"
          beStrictAboutOutputDuringTests="true"
