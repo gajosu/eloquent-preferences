@@ -3,7 +3,7 @@
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
-use KLaude\EloquentPreferences\Preference;
+use Gajosu\EloquentPreferences\Preference;
 
 class CreateModelPreferencesTable extends Migration
 {

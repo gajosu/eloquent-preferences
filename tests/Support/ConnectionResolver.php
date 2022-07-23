@@ -1,6 +1,6 @@
 <?php
 
-namespace KLaude\EloquentPreferences\Tests\Support;
+namespace Gajosu\EloquentPreferences\Tests\Support;
 
 use Illuminate\Database\ConnectionResolverInterface;
 use Illuminate\Database\SQLiteConnection;

@@ -1,16 +1,16 @@
 <?php
 
-namespace KLaude\EloquentPreferences\Tests\Models;
+namespace Gajosu\EloquentPreferences\Tests\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use KLaude\EloquentPreferences\HasPreferences;
+use Gajosu\EloquentPreferences\HasPreferences;
 
 /**
  * A simple user model that has preferences.
  *
  * @property integer $id
  * @property string $email
- * @property \Illuminate\Database\Eloquent\Collection|\KLaude\EloquentPreferences\Preference[] $preferences
+ * @property \Illuminate\Database\Eloquent\Collection|\Gajosu\EloquentPreferences\Preference[] $preferences
  */
 class TestUser extends Model
 {

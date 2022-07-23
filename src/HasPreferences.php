@@ -1,6 +1,6 @@
 <?php
 
-namespace KLaude\EloquentPreferences;
+namespace Gajosu\EloquentPreferences;
 
 use Illuminate\Support\Collection as BaseCollection;
 
@@ -12,7 +12,7 @@ use Illuminate\Support\Collection as BaseCollection;
  *
  * @property array $preference_defaults
  * @property array $preference_casts
- * @property \Illuminate\Database\Eloquent\Collection|\KLaude\EloquentPreferences\Preference[] $preferences
+ * @property \Illuminate\Database\Eloquent\Collection|\Gajosu\EloquentPreferences\Preference[] $preferences
  */
 trait HasPreferences
 {

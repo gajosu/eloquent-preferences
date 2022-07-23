@@ -1,9 +1,9 @@
 <?php
 
-namespace KLaude\EloquentPreferences\Tests;
+namespace Gajosu\EloquentPreferences\Tests;
 
 use PHPUnit\Framework\TestCase;
-use KLaude\EloquentPreferences\Preference;
+use Gajosu\EloquentPreferences\Preference;
 
 class PreferenceTest extends TestCase
 {

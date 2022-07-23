@@ -1,6 +1,6 @@
 <?php
 
-namespace KLaude\EloquentPreferences\Tests;
+namespace Gajosu\EloquentPreferences\Tests;
 
 use Carbon\Carbon;
 use CreateModelPreferencesTable;
@@ -9,9 +9,9 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Support\Collection;
-use KLaude\EloquentPreferences\Preference;
-use KLaude\EloquentPreferences\Tests\Models\TestUser;
-use KLaude\EloquentPreferences\Tests\Support\ConnectionResolver;
+use Gajosu\EloquentPreferences\Preference;
+use Gajosu\EloquentPreferences\Tests\Models\TestUser;
+use Gajosu\EloquentPreferences\Tests\Support\ConnectionResolver;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 

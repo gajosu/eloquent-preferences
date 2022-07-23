@@ -1,6 +1,6 @@
 <?php
 
-namespace KLaude\EloquentPreferences;
+namespace Gajosu\EloquentPreferences;
 
 use Illuminate\Database\Eloquent\Model;
 
