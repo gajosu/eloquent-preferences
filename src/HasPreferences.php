@@ -39,21 +39,19 @@ trait HasPreferences
     {
         // If the cache is not enabled, fetch the preference from the database.
         if (! CacheModule::cacheIsEnabled()) {
-            return $this->getPreferenceFromDatabase($preference, $defaultValue);
+            return $this->getCastedPreference($preference, $defaultValue);
         }
 
         // Check if the preference exists in cache.
         if (CacheModule::existsPreference($this, $preference)) {
             $value = CacheModule::getPreference($this, $preference);
-
-            return $value === null ? $defaultValue : $value;
+            return $this->castPreferenceValue($preference, $value ?? $defaultValue);
         }
 
         // if the preference does not exist in cache, fetch it from the database.
-        $value = $this->getPreferenceFromDatabase($preference, $defaultValue);
+        $value = $this->getPreferenceValueFromDatabase($preference, $defaultValue);
         CacheModule::setPreference($this, $preference, $value);
-
-        return $value;
+        return $this->castPreferenceValue($preference, $value);
     }
 
     /**
@@ -63,15 +61,25 @@ trait HasPreferences
      * @param mixed $defaultValue
      * @return mixed
      */
-    private function getPreferenceFromDatabase(string $preference, mixed $defaultValue = null): mixed
+    private function getCastedPreference(string $preference, mixed $defaultValue = null): mixed
+    {
+        $value = $this->getPreferenceValueFromDatabase($preference, $defaultValue);
+        return $this->castPreferenceValue($preference, $value);
+    }
+
+    /**
+     * Get value of a preference from the database.
+     *
+     * @param string $preference
+     * @param mixed $defaultValue
+     * @return mixed
+     */
+    private function getPreferenceValueFromDatabase(string $preference, mixed $defaultValue = null): mixed
     {
         $savedPreference = $this->preferences()->where('preference', $preference)->first();
-
-        $value = $savedPreference === null
+        return $savedPreference === null
             ? $this->getDefaultValue($preference, $defaultValue)
             : $savedPreference->value;
-
-        return $this->castPreferenceValue($preference, $value);
     }
 
     /**
