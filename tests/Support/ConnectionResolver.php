@@ -2,9 +2,9 @@
 
 namespace Gajosu\EloquentPreferences\Tests\Support;
 
-use Illuminate\Database\ConnectionResolverInterface;
-use Illuminate\Database\SQLiteConnection;
 use PDO;
+use Illuminate\Database\SQLiteConnection;
+use Illuminate\Database\ConnectionResolverInterface;
 
 /**
  * A test connection resolver

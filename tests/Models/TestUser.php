@@ -2,8 +2,8 @@
 
 namespace Gajosu\EloquentPreferences\Tests\Models;
 
-use Gajosu\EloquentPreferences\HasPreferences;
 use Illuminate\Database\Eloquent\Model;
+use Gajosu\EloquentPreferences\HasPreferences;
 
 /**
  * A simple user model that has preferences.

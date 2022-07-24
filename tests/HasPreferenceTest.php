@@ -2,17 +2,17 @@
 
 namespace Gajosu\EloquentPreferences\Tests;
 
+use stdClass;
 use Carbon\Carbon;
 use CreateModelPreferencesTable;
-use Gajosu\EloquentPreferences\Preference;
-use Gajosu\EloquentPreferences\Tests\Models\TestUser;
-use Gajosu\EloquentPreferences\Tests\Support\ConnectionResolver;
-use Illuminate\Database\Eloquent\Model as Eloquent;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Support\Collection;
-use stdClass;
+use Illuminate\Database\Schema\Blueprint;
+use Gajosu\EloquentPreferences\Preference;
+use Illuminate\Database\Eloquent\Model as Eloquent;
+use Gajosu\EloquentPreferences\Tests\Models\TestUser;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Gajosu\EloquentPreferences\Tests\Support\ConnectionResolver;
 
 /**
  * This test's structure is based off the Laravel Framework's SoftDeletes trait

@@ -3,13 +3,13 @@
 namespace Gajosu\EloquentPreferences\Tests;
 
 use CreateModelPreferencesTable;
-use Gajosu\EloquentPreferences\CacheModule;
+use Illuminate\Events\Dispatcher;
+use Illuminate\Database\Schema\Blueprint;
 use Gajosu\EloquentPreferences\Preference;
+use Gajosu\EloquentPreferences\CacheModule;
+use Illuminate\Database\Eloquent\Model as Eloquent;
 use Gajosu\EloquentPreferences\Tests\Models\TestUser;
 use Gajosu\EloquentPreferences\Tests\Support\ConnectionResolver;
-use Illuminate\Database\Eloquent\Model as Eloquent;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Events\Dispatcher;
 
 /**
  * This test's structure is based off the Laravel Framework's SoftDeletes trait

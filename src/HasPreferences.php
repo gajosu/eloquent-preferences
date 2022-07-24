@@ -2,9 +2,9 @@
 
 namespace Gajosu\EloquentPreferences;
 
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Collection as BaseCollection;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 /**
  * Assign preferences to an Eloquent Model.

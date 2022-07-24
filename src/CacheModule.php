@@ -2,10 +2,10 @@
 
 namespace Gajosu\EloquentPreferences;
 
-use Illuminate\Cache\TaggedCache;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
+use Illuminate\Cache\TaggedCache;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Database\Eloquent\Model;
 
 class CacheModule
 {
