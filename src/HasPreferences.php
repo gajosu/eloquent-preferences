@@ -45,12 +45,14 @@ trait HasPreferences
         // Check if the preference exists in cache.
         if (CacheModule::existsPreference($this, $preference)) {
             $value = CacheModule::getPreference($this, $preference);
+
             return $this->castPreferenceValue($preference, $value ?? $defaultValue);
         }
 
         // if the preference does not exist in cache, fetch it from the database.
         $value = $this->getPreferenceValueFromDatabase($preference, $defaultValue);
         CacheModule::setPreference($this, $preference, $value);
+
         return $this->castPreferenceValue($preference, $value);
     }
 
@@ -64,6 +66,7 @@ trait HasPreferences
     private function getCastedPreference(string $preference, mixed $defaultValue = null): mixed
     {
         $value = $this->getPreferenceValueFromDatabase($preference, $defaultValue);
+
         return $this->castPreferenceValue($preference, $value);
     }
 
@@ -77,6 +80,7 @@ trait HasPreferences
     private function getPreferenceValueFromDatabase(string $preference, mixed $defaultValue = null): mixed
     {
         $savedPreference = $this->preferences()->where('preference', $preference)->first();
+
         return $savedPreference === null
             ? $this->getDefaultValue($preference, $defaultValue)
             : $savedPreference->value;
