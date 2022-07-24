@@ -25,4 +25,19 @@ return [
 
     'hidden-attributes' => [],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Enable caching
+    |--------------------------------------------------------------------------
+    |
+    | If caching is enabled, the preferences will be cached for faster
+    | retrieval.
+    |
+    */
+
+    'cache' => [
+        'enabled' => false,
+        'prefix' => 'eloquent-preferences',
+    ]
+
 ];

@@ -11,6 +11,7 @@ Use this library to bind multiple key/value pair preferences to your application
 * [Installation](#installation)
   * [Configuring In Laravel](#configuring-in-laravel)
   * [Configuring Without Laravel](#configuring-without-laravel)
+  * [Enable Cache](#enable-cache)
 * [Usage](#usage)
   * [Helper Methods](#helper-methods)
     * [Retrieving Preferences](#retrieving-preferences)
@@ -87,6 +88,16 @@ Model::getConnectionResolver()
         $table->timestamps();
     });
 
+```
+<a name="enable-cache"></a>
+## Enable Cache
+By default the cache is disabled, to enable it edit the "cache.enabled" entry in `config/eloquent-preferences.php` change the value to `true,`, you can also specify the cache prefix
+
+```php
+'cache' => [
+    'enabled' => true,
+    'prefix' => 'eloquent-preferences',
+]
 ```
 
 <a name="usage"></a>

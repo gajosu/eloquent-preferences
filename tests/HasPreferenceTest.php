@@ -64,6 +64,8 @@ class HasPreferenceTest extends TestCase
         (new CreateModelPreferencesTable())->up();
 
         $this->testUser = TestUser::create(['id' => 1, 'email' => 'johndoe@example.org']);
+
+        config()->set('eloquent-preferences.cache.enabled', false);
     }
 
     /**
