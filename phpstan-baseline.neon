@@ -1,0 +1,11 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Function config_path not found\\.$#"
+			count: 1
+			path: src/EloquentPreferencesServiceProvider.php
+
+		-
+			message: "#^Function database_path not found\\.$#"
+			count: 1
+			path: src/EloquentPreferencesServiceProvider.php

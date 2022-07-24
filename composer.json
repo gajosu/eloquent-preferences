@@ -31,11 +31,7 @@
         "phpunit/phpunit": "~5.0|~4.8|^9.5.10",
         "friendsofphp/php-cs-fixer": "^3.8",
         "nunomaduro/collision": "^6.0",
-        "nunomaduro/larastan": "^2.0.1",
-        "orchestra/testbench": "^7.0",
-        "phpstan/extension-installer": "^1.1",
-        "phpstan/phpstan-deprecation-rules": "^1.0",
-        "phpstan/phpstan-phpunit": "^1.0"
+        "nunomaduro/larastan": "^2.0.1"
     },
     "scripts": {
         "analyse": "vendor/bin/phpstan analyse",
@@ -49,7 +45,7 @@
     },
     "config": {
         "allow-plugins": {
-            "phpstan/extension-installer": true
+            "phpstan/extension-installer": false
         }
     }
 }
