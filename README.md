@@ -265,3 +265,7 @@ return [
 ```php
 const MODEL_PREFERENCE_HIDDEN_ATTRIBUTES = 'created_at,updated_at';
 ```
+
+### Original Author
+
+This library was created by [Klaude](https://github.com/klaude) and is licensed under the [MIT license](LICENSE.md).
