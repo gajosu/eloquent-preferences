@@ -2,8 +2,8 @@
 
 namespace Gajosu\EloquentPreferences\Tests;
 
-use Gajosu\EloquentPreferences\EloquentPreferencesServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
+use Gajosu\EloquentPreferences\EloquentPreferencesServiceProvider;
 
 class TestCase extends Orchestra
 {

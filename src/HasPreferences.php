@@ -2,7 +2,9 @@
 
 namespace Gajosu\EloquentPreferences;
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Collection as BaseCollection;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 /**
  * Assign preferences to an Eloquent Model.
@@ -21,7 +23,7 @@ trait HasPreferences
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
-    public function preferences()
+    public function preferences(): MorphMany
     {
         return $this->morphMany(Preference::class, 'preferable');
     }
@@ -33,7 +35,35 @@ trait HasPreferences
      * @param mixed $defaultValue
      * @return mixed
      */
-    public function getPreference($preference, $defaultValue = null)
+    public function getPreference(string $preference, mixed $defaultValue = null): mixed
+    {
+        // If the cache is not enabled, fetch the preference from the database.
+        if (! CacheModule::cacheIsEnabled()) {
+            return $this->getPreferenceFromDatabase($preference, $defaultValue);
+        }
+
+        // Check if the preference exists in cache.
+        if (CacheModule::existsPreference($this, $preference)) {
+            $value = CacheModule::getPreference($this, $preference);
+
+            return $value === null ? $defaultValue : $value;
+        }
+
+        // if the preference does not exist in cache, fetch it from the database.
+        $value = $this->getPreferenceFromDatabase($preference, $defaultValue);
+        CacheModule::setPreference($this, $preference, $value);
+
+        return $value;
+    }
+
+    /**
+     * Get a preference from the database.
+     *
+     * @param string $preference
+     * @param mixed $defaultValue
+     * @return mixed
+     */
+    private function getPreferenceFromDatabase(string $preference, mixed $defaultValue = null): mixed
     {
         $savedPreference = $this->preferences()->where('preference', $preference)->first();
 
@@ -53,19 +83,38 @@ trait HasPreferences
      * @param mixed $defaultValue
      * @return mixed
      */
-    public function prefers($preference, $defaultValue = null)
+    public function prefers(string $preference, mixed $defaultValue = null): mixed
     {
         return $this->getPreference($preference, $defaultValue);
     }
 
     /**
-     * Set an individual preference value.
+     * Set an individual preference value in the database.
      *
      * @param string $preference
      * @param mixed $value
      * @return self
      */
-    public function setPreference($preference, $value)
+    public function setPreference(string $preference, mixed $value): self
+    {
+        $value = $this->savePreferenceInDatabase($preference, $value);
+
+        // Update the cache if caching is enabled.
+        if (CacheModule::cacheIsEnabled()) {
+            CacheModule::setPreference($this, $preference, $value);
+        }
+
+        return $this;
+    }
+
+    /**
+     * save preference value in the database.
+     *
+     * @param string $preference
+     * @param mixed $value
+     * @return mixed
+     */
+    private function savePreferenceInDatabase(string $preference, mixed $value): mixed
     {
         // Serialize date and JSON-like preference values.
         if ($this->isPreferenceDateCastable($preference)) {
@@ -75,17 +124,14 @@ trait HasPreferences
         }
 
         /** @var Preference $savedPreference */
-        $savedPreference = $this->preferences()->where('preference', $preference)->first();
+        $savedPreference = $this->preferences()->firstOrNew([
+            'preference' => $preference,
+        ]);
 
-        if ($savedPreference === null) {
-            $this->preferences()->save(
-                new Preference(['preference' => $preference, 'value' => $value])
-            );
-        } else {
-            $savedPreference->update(['value' => $value]);
-        }
+        $savedPreference->value = $value;
+        $savedPreference->save();
 
-        return $this;
+        return $value;
     }
 
     /**
@@ -94,7 +140,7 @@ trait HasPreferences
      * @param array|\Illuminate\Support\Collection $preferences
      * @return self
      */
-    public function setPreferences($preferences = [])
+    public function setPreferences(array|Collection $preferences = []): self
     {
         foreach ($preferences as $preference => $value) {
             $this->setPreference($preference, $value);
@@ -109,9 +155,13 @@ trait HasPreferences
      * @param string $preference
      * @return self
      */
-    public function clearPreference($preference)
+    public function clearPreference(string $preference): self
     {
         $this->preferences()->where('preference', $preference)->delete();
+
+        if (CacheModule::cacheIsEnabled()) {
+            CacheModule::deletePreference($this, $preference);
+        }
 
         return $this;
     }
@@ -122,9 +172,15 @@ trait HasPreferences
      * @param array|\Illuminate\Support\Collection $preferences $preferences
      * @return self
      */
-    public function clearPreferences($preferences = [])
+    public function clearPreferences(array|Collection $preferences = []): self
     {
         $this->preferences()->whereIn('preference', $preferences)->delete();
+
+        if (CacheModule::cacheIsEnabled()) {
+            foreach ($preferences as $preference) {
+                CacheModule::deletePreference($this, $preference);
+            }
+        }
 
         return $this;
     }
@@ -134,9 +190,13 @@ trait HasPreferences
      *
      * @return self
      */
-    public function clearAllPreferences()
+    public function clearAllPreferences(): self
     {
         $this->preferences()->delete();
+
+        if (CacheModule::cacheIsEnabled()) {
+            CacheModule::deleteAllPreferences($this);
+        }
 
         return $this;
     }
@@ -151,7 +211,7 @@ trait HasPreferences
      * @param mixed $defaultValue
      * @return mixed
      */
-    protected function getDefaultValue($preference, $defaultValue = null)
+    protected function getDefaultValue(string $preference, mixed $defaultValue = null): mixed
     {
         if ($this->hasPreferenceDefault($preference)) {
             return $this->preference_defaults[$preference];
@@ -165,7 +225,7 @@ trait HasPreferences
      *
      * @return bool
      */
-    protected function hasPreferenceDefaults()
+    protected function hasPreferenceDefaults(): bool
     {
         return property_exists($this, 'preference_defaults') && is_array($this->preference_defaults);
     }
@@ -176,7 +236,7 @@ trait HasPreferences
      * @param string $preference
      * @return bool
      */
-    protected function hasPreferenceDefault($preference)
+    protected function hasPreferenceDefault(string $preference): bool
     {
         return $this->hasPreferenceDefaults() && array_key_exists($preference, $this->preference_defaults);
     }
@@ -186,7 +246,7 @@ trait HasPreferences
      *
      * @return bool
      */
-    protected function hasPreferenceCasts()
+    protected function hasPreferenceCasts(): bool
     {
         return property_exists($this, 'preference_casts') && is_array($this->preference_casts);
     }
@@ -198,7 +258,7 @@ trait HasPreferences
      * @param array $types
      * @return bool
      */
-    protected function hasPreferenceCast($preference, array $types = null)
+    protected function hasPreferenceCast(string $preference, array $types = null): bool
     {
         if ($this->hasPreferenceCasts() && array_key_exists($preference, $this->preference_casts)) {
             return $types
@@ -216,7 +276,7 @@ trait HasPreferences
      * @param string $preference
      * @return bool
      */
-    protected function isPreferenceDateCastable($preference)
+    protected function isPreferenceDateCastable(string $preference): bool
     {
         return $this->hasPreferenceCast($preference, ['date', 'datetime']);
     }
@@ -228,7 +288,7 @@ trait HasPreferences
      * @param string $preference
      * @return bool
      */
-    protected function isPreferenceJsonCastable($preference)
+    protected function isPreferenceJsonCastable(string $preference): bool
     {
         return $this->hasPreferenceCast($preference, ['array', 'json', 'object', 'collection']);
     }
@@ -239,7 +299,7 @@ trait HasPreferences
      * @param string $preference
      * @return string|null
      */
-    protected function getPreferenceCastType($preference)
+    protected function getPreferenceCastType(string $preference): ?string
     {
         return $this->hasPreferenceCast($preference)
             ? strtolower(trim($this->preference_casts[$preference]))
@@ -253,7 +313,7 @@ trait HasPreferences
      * @param mixed $value
      * @return mixed
      */
-    protected function castPreferenceValue($preference, $value)
+    protected function castPreferenceValue(string $preference, mixed $value): mixed
     {
         $castTo = $this->getPreferenceCastType($preference);
 
