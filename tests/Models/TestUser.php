@@ -2,13 +2,13 @@
 
 namespace Gajosu\EloquentPreferences\Tests\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Gajosu\EloquentPreferences\HasPreferences;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * A simple user model that has preferences.
  *
- * @property integer $id
+ * @property int $id
  * @property string $email
  * @property \Illuminate\Database\Eloquent\Collection|\Gajosu\EloquentPreferences\Preference[] $preferences
  */

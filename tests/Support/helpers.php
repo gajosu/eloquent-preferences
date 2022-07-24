@@ -13,10 +13,12 @@ function config($key = null, $default = null)
     switch ($key) {
         case 'eloquent-preferences.table':
             return 'foo-function';
+
             break;
 
         case 'eloquent-preferences.hidden-attributes':
             return ['foo', 'function'];
+
             break;
     }
 }

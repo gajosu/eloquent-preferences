@@ -17,7 +17,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Preference extends Model
 {
-    const DEFAULT_MODEL_PREFERENCE_TABLE = 'model_preferences';
+    public const DEFAULT_MODEL_PREFERENCE_TABLE = 'model_preferences';
 
     protected $fillable = [
         'preference',

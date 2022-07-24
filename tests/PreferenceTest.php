@@ -2,8 +2,8 @@
 
 namespace Gajosu\EloquentPreferences\Tests;
 
-use PHPUnit\Framework\TestCase;
 use Gajosu\EloquentPreferences\Preference;
+use PHPUnit\Framework\TestCase;
 
 class PreferenceTest extends TestCase
 {
