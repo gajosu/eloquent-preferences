@@ -1,10 +1,9 @@
 # Preferences for Laravel Eloquent models
 
-[![Build Status](https://travis-ci.org/gajosu/eloquent-preferences.png)](https://travis-ci.org/gajosu/eloquent-preferences)
-[![Latest Stable Version](https://poser.pugx.org/gajosu/eloquent-preferences/v/stable)](https://packagist.org/packages/gajosu/eloquent-preferences)
-[![Total Downloads](https://poser.pugx.org/gajosu/eloquent-preferences/downloads)](https://packagist.org/packages/gajosu/eloquent-preferences)
-[![Latest Unstable Version](https://poser.pugx.org/gajosu/eloquent-preferences/v/unstable)](https://packagist.org/packages/gajosu/eloquent-preferences)
-[![License](https://poser.pugx.org/gajosu/eloquent-preferences/license)](https://packagist.org/packages/gajosu/eloquent-preferences)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/gajosu/eloquent-preferences.svg?style=flat-square)](https://packagist.org/packages/gajosu/eloquent-preferences)
+[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/gajosu/eloquent-preferences/run-tests?label=tests)](https://github.com/gajosu/eloquent-preferences/actions?query=workflow%3Arun-tests+branch%3Amain)
+[![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/gajosu/eloquent-preferences/Check%20&%20fix%20styling?label=code%20style)](https://github.com/gajosu/eloquent-preferences/actions?query=workflow%3A"Check+%26+fix+styling"+branch%3Amain)
+[![Total Downloads](https://img.shields.io/packagist/dt/gajosu/eloquent-preferences.svg?style=flat-square)](https://packagist.org/packages/gajosu/eloquent-preferences)
 
 Use this library to bind multiple key/value pair preferences to your application's Eloquent models. Preferences are stored in your application's database so they can be easily stored and queried for. This library supports Eloquent 5 through 8 installed either standalone or as a part of the full Laravel framework. Issues and pull requests are welcome! See [CONTRIBUTING.md](https://github.com/gajosu/eloquent-preferences/blob/master/CONTRIBUTING.md) for more information.
 
