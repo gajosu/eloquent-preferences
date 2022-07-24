@@ -60,11 +60,6 @@ class Preference extends Model
             return config('eloquent-preferences.table', self::DEFAULT_MODEL_PREFERENCE_TABLE);
         }
 
-        // Check if the user overloaded the table name via constant.
-        if (defined('MODEL_PREFERENCE_TABLE')) {
-            return MODEL_PREFERENCE_TABLE;
-        }
-
         // Otherwise use the default.
         return self::DEFAULT_MODEL_PREFERENCE_TABLE;
     }
@@ -82,10 +77,6 @@ class Preference extends Model
     {
         if (function_exists('config')) {
             return $this->setHidden(config('eloquent-preferences.hidden-attributes', $this->getHidden()));
-        }
-
-        if (defined('MODEL_PREFERENCE_HIDDEN_ATTRIBUTES')) {
-            return $this->setHidden(explode(',', MODEL_PREFERENCE_HIDDEN_ATTRIBUTES));
         }
 
         return $this;

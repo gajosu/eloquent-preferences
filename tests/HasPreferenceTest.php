@@ -2,18 +2,18 @@
 
 namespace Gajosu\EloquentPreferences\Tests;
 
+use stdClass;
 use Carbon\Carbon;
 use CreateModelPreferencesTable;
-use Gajosu\EloquentPreferences\Preference;
-use Gajosu\EloquentPreferences\Tests\Models\TestUser;
-use Gajosu\EloquentPreferences\Tests\Support\ConnectionResolver;
-use Illuminate\Database\Eloquent\Model as Eloquent;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Support\Collection;
-use PHPUnit\Framework\TestCase;
-use stdClass;
+use Illuminate\Database\Schema\Blueprint;
+use Gajosu\EloquentPreferences\Preference;
+use Gajosu\EloquentPreferences\Tests\TestCase;
+use Illuminate\Database\Eloquent\Model as Eloquent;
+use Gajosu\EloquentPreferences\Tests\Models\TestUser;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Gajosu\EloquentPreferences\Tests\Support\ConnectionResolver;
 
 /**
  * This test's structure is based off the Laravel Framework's SoftDeletes trait
@@ -55,6 +55,8 @@ class HasPreferenceTest extends TestCase
      */
     public function setUp(): void
     {
+        parent::setUp();
+
         $this->schema()->create('users', function (Blueprint $table) {
             $table->increments('id');
             $table->string('email');
@@ -238,22 +240,6 @@ class HasPreferenceTest extends TestCase
     }
 
     /**
-     * @dataProvider provideInternalTypesInputsAndOutputs
-     * @param string $preference
-     * @param int|float|string|bool $input
-     * @param string $expectedInternalType
-     * @param int|float|string|bool $expectedOutput
-     */
-    public function testCastInternalTypeValues($preference, $input, $expectedInternalType, $expectedOutput)
-    {
-        $this->testUser->setPreference($preference, $input);
-        $value = $this->testUser->getPreference($preference);
-
-        // $this->assertInternalType($expectedInternalType, $value);
-        $this->assertEquals($expectedOutput, $value);
-    }
-
-    /**
      * @return array
      */
     public function provideObjectTypesInputsAndOutputs()
@@ -282,21 +268,5 @@ class HasPreferenceTest extends TestCase
         }
 
         return $provide;
-    }
-
-    /**
-     * @dataProvider provideObjectTypesInputsAndOutputs
-     * @param string $preference
-     * @param int|float|string|bool $input
-     * @param string $expectedClass
-     * @param int|float|string|bool $expectedOutput
-     */
-    public function testCastObjectTypeValues($preference, $input, $expectedClass, $expectedOutput)
-    {
-        $this->testUser->setPreference($preference, $input);
-        $value = $this->testUser->getPreference($preference);
-
-        $this->assertInstanceOf($expectedClass, $value);
-        $this->assertEquals($expectedOutput, $value);
     }
 }
