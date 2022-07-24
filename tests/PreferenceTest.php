@@ -3,7 +3,6 @@
 namespace Gajosu\EloquentPreferences\Tests;
 
 use Gajosu\EloquentPreferences\Preference;
-use Gajosu\EloquentPreferences\Tests\TestCase;
 
 class PreferenceTest extends TestCase
 {
