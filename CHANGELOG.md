@@ -2,6 +2,12 @@
 
 All notable changes to `eloquent-preferences` will be documented in this file.
 
+## v1.0.2 - 2022-07-25
+
+### What's Changed
+
+- [Add cache without tags support](https://github.com/gajosu/eloquent-preferences/pull/3/commits/09667a28f8300066ef045db0bb732bd40e01f567) by @gajosu #3
+
 ## v1.0.1 - 2022-07-24
 
 ### What's Changed
