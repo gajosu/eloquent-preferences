@@ -6,7 +6,7 @@ use CreateModelPreferencesTable;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Database\Schema\Blueprint;
 use Gajosu\EloquentPreferences\Preference;
-use Gajosu\EloquentPreferences\CacheModule;
+use Gajosu\EloquentPreferences\Facades\CacheModule;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use Gajosu\EloquentPreferences\Tests\Models\TestUser;
 use Gajosu\EloquentPreferences\Tests\Support\ConnectionResolver;
@@ -111,7 +111,7 @@ class HasPreferenceCacheTest extends TestCase
     public function testGetExistingPreference()
     {
         CacheModule::setPreference($this->testUser, 'preference1', 'value1');
-        $preference1 = CacheModule::getPreference($this->testUser, 'preference1');
+        $preference1 = $this->testUser->getPreference('preference1');
         $this->assertEquals('value1', $preference1);
     }
 
@@ -194,6 +194,12 @@ class HasPreferenceCacheTest extends TestCase
             'preference2' => 'value2',
         ]);
 
+        $user2 = TestUser::create(['id' => 2, 'email' => 'johndoe2@example.org']);
+        $user2->setPreferences([
+            'preference1' => 'value1',
+            'preference2' => 'value2',
+        ]);
+
         $result = $this->testUser->clearAllPreferences();
 
         $preference1 = CacheModule::getPreference($this->testUser, 'preference1');
@@ -201,5 +207,11 @@ class HasPreferenceCacheTest extends TestCase
 
         $this->assertNull($preference1);
         $this->assertNull($preference2);
+
+        $preference1 = CacheModule::getPreference($user2, 'preference1');
+        $preference2 = CacheModule::getPreference($user2, 'preference2');
+
+        $this->assertNotNull($preference1);
+        $this->assertNotNull($preference2);
     }
 }
