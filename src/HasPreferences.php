@@ -3,6 +3,7 @@
 namespace Gajosu\EloquentPreferences;
 
 use Illuminate\Support\Collection;
+use Gajosu\EloquentPreferences\Facades\CacheModule;
 use Illuminate\Support\Collection as BaseCollection;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
@@ -204,11 +205,22 @@ trait HasPreferences
      */
     public function clearAllPreferences(): self
     {
-        $this->preferences()->delete();
+        if (! CacheModule::cacheIsEnabled()) {
+            $this->preferences()->delete();
 
-        if (CacheModule::cacheIsEnabled()) {
-            CacheModule::deleteAllPreferences($this);
+            return $this;
         }
+
+        if (CacheModule::cacheSupportsTags()) {
+            CacheModule::deleteAllPreferences($this);
+        } else {
+            $preferences = $this->preferences()->get();
+            foreach ($preferences as $preference) {
+                CacheModule::deletePreference($this, $preference->preference);
+            }
+        }
+
+        $this->preferences()->delete();
 
         return $this;
     }

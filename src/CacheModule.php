@@ -4,8 +4,8 @@ namespace Gajosu\EloquentPreferences;
 
 use Illuminate\Support\Str;
 use Illuminate\Cache\TaggedCache;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Contracts\Cache\Repository;
 
 class CacheModule
 {
@@ -16,9 +16,9 @@ class CacheModule
      * @param  string $preference
      * @return bool
      */
-    public static function existsPreference(Model $model, string $preference): bool
+    public function existsPreference(Model $model, string $preference): bool
     {
-        return self::getCacheBuilder($model)->has(self::getCacheKey($preference));
+        return $this->getCacheBuilder($model)->has($this->getCacheKey($model, $preference));
     }
 
     /**
@@ -28,9 +28,9 @@ class CacheModule
      * @param string $preference
      * @return mixed
      */
-    public static function getPreference(Model $model, string $preference): mixed
+    public function getPreference(Model $model, string $preference): mixed
     {
-        return self::getCacheBuilder($model)->get(self::getCacheKey($preference));
+        return $this->getCacheBuilder($model)->get($this->getCacheKey($model, $preference));
     }
 
     /**
@@ -41,13 +41,13 @@ class CacheModule
      * @param mixed $value
      * @return void
      */
-    public static function setPreference(Model $model, string $preference, mixed $value): void
+    public function setPreference(Model $model, string $preference, mixed $value): void
     {
         if ($value === null) {
             return;
         }
 
-        self::getCacheBuilder($model)->forever(self::getCacheKey($preference), $value);
+        $this->getCacheBuilder($model)->forever($this->getCacheKey($model, $preference), $value);
     }
 
     /**
@@ -57,20 +57,23 @@ class CacheModule
      * @param string $preference
      * @return void
      */
-    public static function deletePreference(Model $model, string $preference): void
+    public function deletePreference(Model $model, string $preference): void
     {
-        self::getCacheBuilder($model)->forget(self::getCacheKey($preference));
+        $this->getCacheBuilder($model)->forget($this->getCacheKey($model, $preference));
     }
 
     /**
      * Delete all preferences from cache.
+     * Only for drivers with tags support.
      *
      * @param \Illuminate\Database\Eloquent\Model $model
      * @return void
      */
-    public static function deleteAllPreferences(Model $model): void
+    public function deleteAllPreferences(Model $model): void
     {
-        self::getCacheBuilder($model)->flush();
+        /** @var \Illuminate\Cache\TaggedCache */
+        $builder = $this->getCacheBuilder($model);
+        $builder->flush();
     }
 
     /**
@@ -78,7 +81,7 @@ class CacheModule
      *
      * @return bool
      */
-    public static function cacheIsEnabled(): bool
+    public function cacheIsEnabled(): bool
     {
         return config('eloquent-preferences.cache.enabled');
     }
@@ -88,7 +91,7 @@ class CacheModule
      *
      * @return string
      */
-    public static function cachePrefix(): string
+    protected function cachePrefix(): string
     {
         return config('eloquent-preferences.cache.prefix');
     }
@@ -99,9 +102,9 @@ class CacheModule
      * @param \Illuminate\Database\Eloquent\Model $model
      * @return string
      */
-    public static function getCacheTag(Model $model): string
+    protected function getCacheTag(Model $model): string
     {
-        return self::cachePrefix() . '_' . $model::class . '_' . $model->getKey();
+        return $this->cachePrefix() . '_' . $model::class . '_' . $model->getKey();
     }
 
     /**
@@ -110,19 +113,43 @@ class CacheModule
      * @param string $preference
      * @return string
      */
-    public static function getCacheKey(string $preference): string
+    protected function getCacheKey(Model $model, string $preference): string
     {
-        return self::cachePrefix() . ':' . Str::slug($preference);
+        if ($this->cacheSupportsTags()) {
+            return $this->cachePrefix() . ':' . Str::slug($preference);
+        }
+
+        return $this->getCacheTag($model) . ':' . Str::slug($preference);
     }
 
     /**
      * Get cache builder.
      *
      * @param \Illuminate\Database\Eloquent\Model $model
-     * @return \Illuminate\Cache\TaggedCache
+     * @return \Illuminate\Cache\TaggedCache|\Illuminate\Contracts\Cache\Repository
      */
-    private static function getCacheBuilder(Model $model): TaggedCache
+    protected function getCacheBuilder(Model $model): TaggedCache|Repository
     {
-        return Cache::tags([self::getCacheTag($model)]);
+        /** @var \Illuminate\Cache\Repository */
+        $repository = app('cache')->driver();
+
+        if ($this->cacheSupportsTags()) {
+            return $repository->tags([$this->getCacheTag($model)]);
+        }
+
+        return $repository;
+    }
+
+    /**
+     * Returns true if the cache driver supports tags.
+     *
+     * @return bool
+     */
+    public function cacheSupportsTags(): bool
+    {
+        /** @var \Illuminate\Cache\Repository */
+        $repository = app('cache')->driver();
+
+        return $repository->supportsTags();
     }
 }
